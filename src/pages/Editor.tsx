@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { reconstructTableQuery } from "../utils/editor";
 import { serializePkKey, buildPkMap } from "../utils/dataGrid";
-import { isMultiDatabaseCapable } from "../utils/database";
+import { isMultiDatabaseCapable, usesMultiDatabaseLayout } from "../utils/database";
 import { isReadonly, supportsExplain } from "../utils/driverCapabilities";
 import { useClickOutside } from "../hooks/useClickOutside";
 import {
@@ -434,8 +434,7 @@ export const Editor = () => {
   const activeTabQuery = activeTab?.query;
   const isTableTab = activeTab?.type === "table";
   const isNotebookTab = activeTab?.type === "notebook";
-  const isMultiDb =
-    isMultiDatabaseCapable(activeCapabilities) && selectedDatabases.length > 1;
+  const isMultiDb = usesMultiDatabaseLayout(activeCapabilities, selectedDatabases);
   const isEditorOpen =
     !isTableTab && (activeTab?.isEditorOpen ?? activeTab?.type !== "table");
 
